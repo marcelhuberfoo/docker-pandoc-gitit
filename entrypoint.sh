@@ -1,15 +1,15 @@
 #!/bin/sh
 set -e
 umask 002
-export PATH=/home/user/.cabal/bin:$PATH
+export PATH=/home/$UNAME/.cabal/bin:$PATH
 
 if [ "$1" = 'gitit' ]; then
   if [ ! -f /data/gitit.conf ]; then
-    gosu user gitit --print-default-config > /data/gitit.conf
+    gosu $UNAME gitit --print-default-config > /data/gitit.conf
   fi
-  exec gosu user "$@"
+  exec gosu $UNAME "$@"
 elif [ "$1" = 'pandoc' ]; then
-  exec gosu user "$@"
+  exec gosu $UNAME "$@"
 fi
 
 exec "$@"

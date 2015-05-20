@@ -12,9 +12,8 @@ RUN pacman -Syy --noconfirm git texlive-core gtk2 graphviz && \
 
 ADD entrypoint.sh /entrypoint.sh
 
-RUN gosu user bash -c 'cabal update && \
+RUN gosu $UNAME bash -c 'cabal update && \
     cabal install gitit'
-#    cabal install --flags="embed_data_files" --disable-tests --disable-documentation gitit'
 
 EXPOSE 5001
 #CMD ["gitit", "-f", "/data/gitit.conf"]
