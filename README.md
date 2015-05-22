@@ -1,4 +1,4 @@
-# pandoc-gitit
+# pandoc-gitit [![](https://badge.imagelayers.io/marcelhuberfoo/pandoc-gitit:latest.svg)](https://imagelayers.io/?images=marcelhuberfoo/pandoc-gitit:latest 'Get your own badge on imagelayers.io')
 [Docker][docker] container for [Pandoc][pandoc]
 and [Gitit][gitit], with Latex tools installed for pdf creation.
 
