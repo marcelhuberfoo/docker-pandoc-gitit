@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 umask 002
-export PATH=/home/$UNAME/.cabal/bin:$PATH
+export PATH=/$UNAME/.cabal/bin:$PATH
 
 if [ "$1" = 'gitit' ]; then
   if [ ! -f /data/gitit.conf ]; then

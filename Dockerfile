@@ -18,6 +18,8 @@ USER $UNAME
 RUN bash -l -c 'cabal update && \
     cabal install gitit pandoc-citeproc'
 USER root
+RUN curl -sSL http://www.math.union.edu/~dpvc/jsMath/download/TeX-fonts-linux.tgz | tar xzf - --transform 's|TeX-fonts-linux|/usr/share/fonts/TTF|' --show-transformed-names --absolute-names
+RUN fc-cache -vf
 
 EXPOSE 5001
 #CMD ["gitit", "-f", "/data/gitit.conf"]
