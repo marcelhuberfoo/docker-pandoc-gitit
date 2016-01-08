@@ -15,11 +15,11 @@ RUN chmod 0755 /pandoc-svg.py
 
 USER $UNAME
 RUN bash -l -c 'cabal update && \
-    cabal install gitit pandoc-citeproc && \
-    rm -f /tmp/* 2>/dev/null'
+    cabal install gitit pandoc-citeproc'
 
 USER root
 ADD entrypoint.sh /entrypoint.sh
+RUN rm -f /tmp/* || true
 EXPOSE 5001
 #CMD ["gitit", "-f", "/data/gitit.conf"]
 CMD ["pandoc", "--help"]
