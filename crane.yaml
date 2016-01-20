@@ -1,0 +1,48 @@
+groups:
+  default:
+  - pandoc
+containers:
+  pandoc: &pa
+    build:
+      context: .
+      file: Dockerfile
+    image: marcelhuberfoo/pandoc-gitit
+    run: &par
+      cmd:
+      - pandoc
+      - --help
+      volume:
+      - $PWD:/data:rw
+      interactive: true
+      tty: true
+    exec:
+      interactive: true
+      tty: true
+  gitit: &gi
+    build:
+      context: image
+      file: Dockerfile
+    image: marcelhuberfoo/pandoc-gitit
+    run: &gir
+      cmd:
+      - gitit
+      - -f
+      - /data/gitit.conf
+      detach: true
+      env:
+      - GIT_COMMITTER_EMAIL=marcelhuberfoo@gmail.com
+      - GIT_COMMITTER_NAME=Marcel Huber
+      publish:
+      - 5001:5001
+      stop-signal: SIGINT
+      volume:
+      - gitit-data_caballogs:/caballogs:rw
+      - gitit-data_data:/data:rw
+    exec:
+      interactive: true
+      tty: true
+  gitit-shell: { <<: *gi, run: { <<: *gir, cmd: /bin/bash, detach, tty: true, interactive: true } }
+volumes:
+  gitit-data_caballogs: null
+  gitit-data_data: null
+

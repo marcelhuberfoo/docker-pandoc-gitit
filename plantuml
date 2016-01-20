@@ -1,0 +1,4 @@
+#! /bin/sh
+
+eval "java -jar /opt/plantuml/plantuml.jar $@"
+
