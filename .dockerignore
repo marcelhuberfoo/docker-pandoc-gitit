@@ -2,3 +2,5 @@
 README.md
 *.swp
 crane.yaml
+build.sh
+dockerbuild.*

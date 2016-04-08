@@ -5,17 +5,19 @@ MAINTAINER Marcel Huber <marcelhuberfoo@gmail.com>
 USER root
 RUN echo -e '[infinality-bundle]\nSigLevel=Never\nServer = http://bohoomil.com/repo/$arch\n[infinality-bundle-fonts]\nSigLevel=Never\nServer = http://bohoomil.com/repo/fonts' >> /etc/pacman.conf && \
     pacman -Syy --noconfirm reflector git && \
-    reflector --country Switzerland --country Germany --latest 5 --sort rate --save /etc/pacman.d/mirrorlist && \
-    pacman -Syyu --noconfirm
+    reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist && \
+    pacman -Syyu --noconfirm && printf "y\\ny\\n" | pacman -Scc
 
 USER $UNAME
 RUN bash -l -c 'cabal update && git clone https://github.com/jgm/gitit && cd gitit && \
-    cabal install --jobs --allow-newer --reorder-goals --enable-split-objs --enable-executable-stripping . pandoc pandoc-citeproc'
-RUN bash -l -c 'rm -rf gitit/'
+    cabal install --jobs --allow-newer --enable-executable-stripping --enable-split-objs --flags="embed_data_files plugins" --disable-executable-dynamic --disable-debug-info --disable-tests --disable-documentation --dependencies-only . pandoc pandoc-citeproc && cabal install hsb2hs && \
+    cabal install --jobs --allow-newer --enable-executable-stripping --enable-split-objs --flags="embed_data_files plugins" --disable-executable-dynamic --disable-debug-info --disable-tests --disable-documentation . pandoc pandoc-citeproc && \
+    cd && rm -rf gitit/ .cabal/{logs,packages,setup-exe-cache}/*'
 
 USER root
-RUN pacman -S --noconfirm fontconfig-infinality-ultimate freetype2-infinality-ultimate cairo-infinality-ultimate ibfonts-meta-base && printf "y\\ny\\n" | pacman -Scc
-RUN pacman -S --noconfirm git python-pip texlive-latexextra inkscape gtk2 graphviz mime-types jre8-openjdk-headless && \
+RUN reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+RUN pacman -Syy --noconfirm --needed fontconfig-infinality-ultimate freetype2-infinality-ultimate cairo-infinality-ultimate ibfonts-meta-base && printf "y\\ny\\n" | pacman -Scc
+RUN pacman -S --noconfirm --needed python-pip texlive-latexextra inkscape gtk2 graphviz mime-types jre8-openjdk-headless && \
     printf "y\\ny\\n" | pacman -Scc
 RUN pip install pandocfilters
 
