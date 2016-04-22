@@ -17,12 +17,12 @@ RUN bash -l -c 'cabal update && git clone https://github.com/jgm/gitit && cd git
 USER root
 RUN reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
 RUN pacman -Syy --noconfirm --needed fontconfig-infinality-ultimate freetype2-infinality-ultimate cairo-infinality-ultimate ibfonts-meta-base && printf "y\\ny\\n" | pacman -Scc
-RUN pacman -S --noconfirm --needed python-pip texlive-latexextra inkscape gtk2 graphviz mime-types jre8-openjdk-headless && \
+RUN pacman -S --noconfirm --needed python-pip texlive-latexextra inkscape gtk2 graphviz mime-types jre8-openjdk-headless pkg-config && \
     printf "y\\ny\\n" | pacman -Scc
-RUN pip install pandocfilters
+RUN pip install pandocfilters pygraphviz
 
-ADD https://gist.githubusercontent.com/marcelhuberfoo/42cd8b3dd971ed833d3b/raw/6418ed5e973868fef7e5cefe47982944e70b79ee/pandoc-svg.py /pandoc-svg.py
-RUN chmod 0755 /pandoc-svg.py
+RUN cd / && git clone --single-branch --branch master --depth 1 https://github.com/marcelhuberfoo/pandocfilters.git filters
+RUN chmod -R 0755 /filters
 COPY plantuml /usr/local/bin/plantuml
 RUN mkdir -p /opt/plantuml && curl -L -o /opt/plantuml/plantuml.jar http://sourceforge.net/projects/plantuml/files/plantuml.jar/download && chmod +x /usr/local/bin/plantuml
 
