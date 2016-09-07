@@ -10,7 +10,6 @@ machine:
     ver_file: pandoc_gitit_version.sh
   services:
     - docker
-  timeout: 1200
 
 dependencies:
   override:
