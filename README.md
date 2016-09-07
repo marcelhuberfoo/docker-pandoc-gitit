@@ -1,4 +1,4 @@
-# pandoc-gitit [![](https://images.microbadger.com/badges/version/marcelhuberfoo/pandoc-gitit:latest.svg)](http://microbadger.com/images/marcelhuberfoo/pandoc-gitit:latest "Get your own version badge on microbadger.com")
+# pandoc-gitit [![](https://images.microbadger.com/badges/version/marcelhuberfoo/pandoc-gitit.svg)](http://microbadger.com/images/marcelhuberfoo/pandoc-gitit "Get your own version badge on microbadger.com")
 [Docker][docker] container for [Pandoc][pandoc]
 and [Gitit][gitit], with Latex tools installed for pdf creation.
 
