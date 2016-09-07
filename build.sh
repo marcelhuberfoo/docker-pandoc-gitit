@@ -1,14 +1,14 @@
 #!/bin/sh
 
 set -e
-imagename=marcelhuberfoo/pandoc-gitit
-docker build --rm --tag=${imagename}:latest --file=./Dockerfile . >dockerbuild.out 2>dockerbuild.err
+docker_image=marcelhuberfoo/pandoc-gitit
+docker_file=Dockerfile
+docker_context=.
+ver_file=pandoc_gitit_version.sh
+docker build --rm --tag=${docker_image}:latest --file=$docker_file $docker_context
 
-pd_version=$(sed -rn -e 's/Installed pandoc-([0-9.]+)$/\1/p' dockerbuild.out)
-gi_version=$(sed -rn -e 's/Installed gitit-([0-9.]+)$/\1/p' dockerbuild.out)
+docker tag ${docker_image}:latest ${docker_image}:$(./$ver_file f)
 
-docker tag ${imagename}:latest ${imagename}:${pd_version}_${gi_version}
-
-docker push ${imagename}:${pd_version}_${gi_version}
-docker push ${imagename}:latest
+docker push ${docker_image}:$(./$ver_file)
+docker push ${docker_image}:latest
 
