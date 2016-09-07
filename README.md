@@ -1,4 +1,4 @@
-# pandoc-gitit [![](https://badge.imagelayers.io/marcelhuberfoo/pandoc-gitit:latest.svg)](https://imagelayers.io/?images=marcelhuberfoo/pandoc-gitit:latest 'Get your own badge on imagelayers.io')
+# pandoc-gitit [![](https://images.microbadger.com/badges/version/marcelhuberfoo/pandoc-gitit:latest.svg)](http://microbadger.com/images/marcelhuberfoo/pandoc-gitit:latest "Get your own version badge on microbadger.com")
 [Docker][docker] container for [Pandoc][pandoc]
 and [Gitit][gitit], with Latex tools installed for pdf creation.
 
@@ -55,8 +55,10 @@ docker run -d --name gitit \
       -e GIT_COMMITTER_NAME="User Name" \
       -e GIT_COMMITTER_EMAIL="user@domain.com" \
       -p 60000:5001 \
-      marcelhuberfoo/pandoc-gitit
+      marcelhuberfoo/pandoc-gitit \
+      gitit -f /data/gitit.conf
 ```
+Then navigate your browser to `http://localhost:60000` to start using gitit wiki.
 
 ***It is important to pass in the committers name and email at least for the first commits of gitit!***
 Otherwise the container will abort due to `git commit` errors. As soon as you created a user and logged in,
@@ -79,8 +81,11 @@ docker run -d --name gitit \
       -e GIT_COMMITTER_EMAIL="user@domain.com" \
       -p 60000:5001 \
       -v /home/gitit/wiki:/data \
-      marcelhuberfoo/pandoc-gitit
+      marcelhuberfoo/pandoc-gitit \
+      gitit -f /data/gitit.conf
 ```
+
+Again, navigate your browser to `http://localhost:60000` to start using gitit wiki.
 
 #### files and folders
 
