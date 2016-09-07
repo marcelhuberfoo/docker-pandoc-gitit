@@ -14,12 +14,8 @@ machine:
 dependencies:
   override:
     - docker info
-    - docker build --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-       --build-arg VCS_REF=$(git rev-parse --short HEAD)
-       --build-arg PANDOC_VERSION=$(./$ver_file f | cut -d"_" -f1)
-       --build-arg GITIT_VERSION=$(./$ver_file f | cut -d"_" -f2)
-       --tag=$docker_image --file=$docker_file $docker_context:
-               timeout: 1200
+    - docker build --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") --build-arg VCS_REF=$(git rev-parse --short HEAD) --build-arg PANDOC_VERSION=$(./$ver_file f | cut -d"_" -f1) --build-arg GITIT_VERSION=$(./$ver_file f | cut -d"_" -f2) --tag=$docker_image --file=$docker_file $docker_context:
+      timeout: 1200
 
 test:
   override:

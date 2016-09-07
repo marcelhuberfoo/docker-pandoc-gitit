@@ -23,7 +23,7 @@ RUN echo -e '[infinality-bundle]\nSigLevel=Never\nServer = http://bohoomil.com/r
 USER $UNAME
 RUN bash -l -c 'cabal update && git clone --single-branch -b master https://github.com/jgm/gitit && cd gitit && \
     cabal install --jobs --allow-newer --enable-executable-stripping --enable-split-objs --flags="embed_data_files plugins" --disable-executable-dynamic --disable-debug-info --disable-tests --disable-documentation --dependencies-only . pandoc pandoc-citeproc && cabal install hsb2hs && \
-    cabal install --jobs --allow-newer --enable-executable-stripping --enable-split-objs --flags="embed_data_files plugins" --disable-executable-dynamic --disable-debug-info --disable-tests --disable-documentation . pandoc pandoc-citeproc && \
+    cabal install --jobs --allow-newer --enable-executable-stripping --enable-split-objs --flags="embed_data_files plugins" --disable-executable-dynamic --disable-debug-info --disable-tests --disable-documentation --verbose=3 . pandoc pandoc-citeproc && \
     cd && rm -rf gitit/ .cabal/{logs,packages,setup-exe-cache}/*'
 
 USER root
