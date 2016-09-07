@@ -1,19 +1,22 @@
 #!/bin/sh
 
-set -e
-docker_image=marcelhuberfoo/pandoc-gitit
-docker_file=Dockerfile
-docker_context=.
-ver_file=pandoc_gitit_version.sh
-docker build --rm \
-             --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
-             --build-arg VCS_REF=$(git rev-parse --short HEAD) \
-             --build-arg PANDOC_VERSION=$(./$ver_file f | cut -d"_" -f1) \
-             --build-arg GITIT_VERSION=$(./$ver_file f | cut -d"_" -f2) \
-             --tag=$docker_image --file=$docker_file $docker_context
+. ./build_params.sh
 
-docker tag ${docker_image}:latest ${docker_image}:$(./$ver_file f)
+count=0
+while [ true ]; do echo "[${count}min]"; count=$(($count+1)); sleep 60; done&
+min_pid=$!
 
-docker push ${docker_image}:$(./$ver_file)
-docker push ${docker_image}:latest
+pd_ver=$(./$ver_file f| cut -d"_" -f1)
+gi_ver=$(./$ver_file | cut -d"_" -f2)
+
+docker build \
+  --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+  --build-arg VCS_REF=$(git rev-parse --short HEAD) \
+  --build-arg PANDOC_VERSION=$pd_ver \
+  --build-arg GITIT_VERSION=$gi_ver \
+  --tag=$docker_image --file=$docker_file $docker_context
+
+ret_code=$?
+kill $min_pid
+exit $ret_code
 

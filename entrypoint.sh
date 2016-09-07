@@ -14,7 +14,7 @@ if [ "$1" = 'gitit' ]; then
     # run once, by specifying unbindable port 80, to initialize files in /data
     gosu $UNAME gitit -f /data/gitit.conf -p 80 2>/dev/null || true
     # copy over missing files
-    gosu $UNAME bash -l -c "for n in \$(find . -type d -path '*data/static'); do cd \$(dirname \$n) && tar cf - static s5 markupHelp markup.* | ( tar xf - -C /data ); done"
+    gosu $UNAME bash -l -c "for n in \$(find . -type d -path '*data/static'); do cd \$(dirname \$n) && tar cf - static s5 templates markupHelp markup.* | ( tar xf - -C /data ); done"
   fi
   exec gosu $UNAME "$@"
 elif [ "$1" = 'pandoc' ]; then
